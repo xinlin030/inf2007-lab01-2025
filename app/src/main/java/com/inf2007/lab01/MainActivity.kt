@@ -40,6 +40,7 @@ fun MainScreen() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             var username by remember { mutableStateOf("") }
             var showGreeting by remember { mutableStateOf(false) }
+            var greetingName by remember {mutableStateOf("")}
 
             Column(
                 modifier = Modifier
@@ -49,13 +50,18 @@ fun MainScreen() {
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 UserInput(
-                    name = name,
-                    onNameChange = { name = it }
+                    // name changed to username
+                    name = username,
+                    onNameChange = { username = it }
                 )
 
                 Button(
                     onClick = {
                         if (username.isNotBlank()) {
+                            greetingName = username
+                            showGreeting = true
+                        }
+                        else{
                             showGreeting = false
                         }
                     },
@@ -67,7 +73,7 @@ fun MainScreen() {
                 }
 
                 if (showGreeting) {
-                    Greeeting(
+                    Greeting(
                         name = username,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -88,17 +94,17 @@ fun UserInput(name: String, onNameChange: (String) -> Unit, modifier: Modifier =
         label = { Text("Enter your Name") },
         modifier = modifier
             .fillMaxWidth()
-            .testTag("UserInput")
+            .testTag("nameInput")
     )
 }
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
-        text = "Hello $username!, Welcome to InF2007!",
+        text = "Hello $name!, Welcome to INF2007!",
         modifier = Modifier
             .fillMaxWidth()
-            .testTag("greeting")
+            .testTag("greetingMsg")
     )
 }
 
